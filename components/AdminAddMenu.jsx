@@ -91,7 +91,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
         !l_priceRef.current ||
         !xl_priceRef.current ||
         !imageRef.current ||
-        !categoryRef.current 
+        !categoryRef.current
       ) {
         setNotification({
           show: true,
@@ -130,7 +130,7 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
       const imageUrl = await uploadImage(imageFile);
 
       // Send data to API
-      await axios.post("/api/add-product", {
+      await axios.post("/api/add-products", {
         name,
         description,
         price,
@@ -268,7 +268,6 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
                 placeholder="9.99"
                 step="0.01"
                 min="0"
-                
               />
             </div>{" "}
             {/* Item md Price */}
@@ -286,7 +285,6 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
                 placeholder="9.99"
                 step="0.01"
                 min="0"
-                
               />
             </div>{" "}
             {/* Item Large Price */}
@@ -308,10 +306,10 @@ const AdminAddMenu = ({ isOpen, onClose }) => {
             </div>
             {/* Item Large Price */}
             <div className="mb-4">
-              <label className="block mb-2">Lg Price ($)</label>
+              <label className="block mb-2">Xl Price ($)</label>
               <input
                 type="number"
-                ref={l_priceRef}
+                ref={xl_priceRef}
                 className="w-full px-3 py-2 border rounded-md"
                 style={{
                   backgroundColor: "var(--background)",
