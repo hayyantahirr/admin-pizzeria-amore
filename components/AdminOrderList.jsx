@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { supabase } from "@/lib/supabaseClient";
 
 import { useState, useEffect } from "react";
@@ -466,9 +467,8 @@ const AdminOrderList = () => {
               const orderItems = orders[orderId];
               const firstItem = orderItems[0];
               return (
-                <>
+                <React.Fragment key={orderId}>
                   <tr
-                    key={orderId}
                     className={`border-b ${
                       theme === "light"
                         ? "bg-white hover:bg-gray-50"
@@ -691,7 +691,7 @@ const AdminOrderList = () => {
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
           </tbody>
