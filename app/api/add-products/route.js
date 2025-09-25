@@ -35,7 +35,10 @@ export async function POST(req) {
 
     if (error) {
       console.error("Supabase error:", error);
-      return new Response(JSON.stringify({ error: error.message, details: error }), { status: 500 });
+      return new Response(
+        JSON.stringify({ error: error.message, details: error }),
+        { status: 500 }
+      );
     }
 
     // 3. Return data
