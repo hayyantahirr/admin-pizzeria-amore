@@ -13,14 +13,7 @@ const AdminOrderList = () => {
   // const supabase = createClientComponentClient();
   const { theme } = useTheme();
 
-  const statusOptions = [
-    "pending",
-    "Processing",
-    "Completed",
-    "Rejected",
-    "On Hold",
-    "In Transit",
-  ];
+  const statusOptions = ["pending", "Completed", "Rejected"];
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -95,6 +88,55 @@ const AdminOrderList = () => {
     }
   };
 
+  const deleteOrder = async (orderId) => {
+    // Show confirmation dialog
+    const confirmDelete = window.confirm(
+      `Are you sure you want to permanently delete all products for Order ID: ${orderId}? This action cannot be undone.`
+    );
+
+    if (!confirmDelete) return;
+
+    setIsUpdating((prev) => ({ ...prev, [orderId]: true }));
+
+    try {
+      const { error } = await supabase
+        .from("order_list")
+        .delete()
+        .eq("order_id", orderId);
+
+      if (error) {
+        console.error("Error deleting order:", error);
+        alert("Failed to delete order. Please try again.");
+      } else {
+        // Remove from local state
+        setOrders((prev) => {
+          const updated = { ...prev };
+          delete updated[orderId];
+          return updated;
+        });
+
+        // Remove from selectedStatus
+        setSelectedStatus((prev) => {
+          const updated = { ...prev };
+          delete updated[orderId];
+          return updated;
+        });
+
+        // Close expanded view if this order was expanded
+        if (expandedOrder === orderId) {
+          setExpandedOrder(null);
+        }
+
+        alert("Order deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      alert("Failed to delete order. Please try again.");
+    } finally {
+      setIsUpdating((prev) => ({ ...prev, [orderId]: false }));
+    }
+  };
+
   const getStatusLabel = (status) => {
     switch (status) {
       case "Completed":
@@ -103,12 +145,7 @@ const AdminOrderList = () => {
             Completed
           </span>
         );
-      case "Processing":
-        return (
-          <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-            Processing
-          </span>
-        );
+
       case "pending":
         return (
           <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
@@ -121,18 +158,7 @@ const AdminOrderList = () => {
             Rejected
           </span>
         );
-      case "On Hold":
-        return (
-          <span className="bg-orange-100 text-orange-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-            On Hold
-          </span>
-        );
-      case "In Transit":
-        return (
-          <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-            In Transit
-          </span>
-        );
+
       default:
         return (
           <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
@@ -179,10 +205,10 @@ const AdminOrderList = () => {
                 City
               </th>
               <th scope="col" className="px-6 py-3">
-                Date
+                Order Time
               </th>
               <th scope="col" className="px-6 py-3">
-                Status
+                Order Status
               </th>
               <th scope="col" className="px-6 py-3">
                 <span className="sr-only">Expand</span>
@@ -208,8 +234,11 @@ const AdminOrderList = () => {
                         theme === "light" ? "text-gray-900" : "text-white"
                       }`}
                     >
-                      {orderId}
+                      {orderId.length > 7
+                        ? orderId.slice(0, 7) + "..."
+                        : orderId}
                     </td>
+
                     <td className="px-6 py-4">{firstItem.customer_name}</td>
                     <td className="px-6 py-4">{firstItem.delivery_city}</td>
                     <td className="px-6 py-4">
@@ -257,6 +286,9 @@ const AdminOrderList = () => {
                               Customer Details
                             </h3>
                             <p>
+                              <strong>Order-Id : </strong> {orderId}
+                            </p>
+                            <p>
                               <strong>Name:</strong> {firstItem.customer_name}
                             </p>
                             <p>
@@ -281,6 +313,10 @@ const AdminOrderList = () => {
                               {firstItem.order_total}
                             </p>
                             <p>
+                              <strong>Delivery Notes :</strong>{" "}
+                              {firstItem.delivery_notes}
+                            </p>
+                            <p>
                               <strong>Order Time:</strong>
                               {new Date(
                                 firstItem.created_at
@@ -289,7 +325,7 @@ const AdminOrderList = () => {
                                 minute: "numeric",
                                 hour12: true, // makes it AM/PM style
                               })}
-                              and
+                              &
                               {new Date(
                                 firstItem.created_at
                               ).toLocaleDateString("en-US", {
@@ -388,6 +424,20 @@ const AdminOrderList = () => {
                                 {isUpdating[orderId]
                                   ? "Updating..."
                                   : "Update Status"}
+                              </button>
+                              {/* Delete button  */}
+                              <button
+                                onClick={() => deleteOrder(orderId)}
+                                disabled={isUpdating[orderId]}
+                                className={`w-full px-4 py-2 rounded-md font-medium transition-colors ${
+                                  isUpdating[orderId]
+                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    : "bg-red-600 text-white hover:bg-red-700"
+                                }`}
+                              >
+                                {isUpdating[orderId]
+                                  ? "Deleting..."
+                                  : "Delete Order"}
                               </button>
                             </div>
                           </div>
