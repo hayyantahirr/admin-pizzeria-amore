@@ -59,27 +59,7 @@ const AdminSidebar = ({ showSidebar, setShowSidebar, setActiveComponent, activeC
           </button>
         </div>
 
-        {/* Search bar - visible only on mobile */}
-        <div className="md:hidden mb-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none"
-              style={{
-                backgroundColor: 'var(--background)',
-                color: 'var(--foreground)',
-                borderColor: 'var(--sidebar-text)',
-                '--ring-color': 'var(--accent)',
-              }}
-              onFocus={(e) => e.target.style.boxShadow = `0 0 0 2px var(--ring-color)`}
-              onBlur={(e) => e.target.style.boxShadow = 'none'}
-            />
-            <FaSearch className="absolute left-3 top-3" style={{ color: 'var(--sidebar-text)' }} />
-          </div>
-        </div>
+      
 
         <nav>
           <ul className="space-y-2">

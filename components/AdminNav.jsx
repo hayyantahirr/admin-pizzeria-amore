@@ -13,39 +13,7 @@ const AdminNav = ({ toggleSidebar }) => {
     image: "/user.jpg",
   });
 
-  useEffect(() => {
-    // Fetch the current user data from Supabase
-    const fetchUser = async () => {
-      try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        if (user) {
-          // Get user profile data from profiles table
-          const { data } = await supabase
-            .from("profiles")
-            .select("full_name, avatar_url")
-            .eq("id", user.id)
-            .single();
-
-          setUser({
-            name:
-              data?.full_name ||
-              user.user_metadata?.full_name ||
-              user.email ||
-              "Admin",
-            image:
-              data?.avatar_url || user.user_metadata?.avatar_url || "/user.jpg",
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  
   
 
   return (
@@ -81,30 +49,7 @@ const AdminNav = ({ toggleSidebar }) => {
           </div>
         </div>
 
-        {/* Search Bar - Hidden on mobile */}
-        <div className="hidden md:block flex-1 mx-10">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full max-w-md pl-10 pr-4 py-2 rounded-lg border focus:outline-none"
-              style={{
-                backgroundColor: "var(--background)",
-                color: "var(--foreground)",
-                borderColor: "var(--nav-text)",
-                "--ring-color": "var(--accent)",
-              }}
-              onFocus={(e) =>
-                (e.target.style.boxShadow = `0 0 0 2px var(--ring-color)`)
-              }
-              onBlur={(e) => (e.target.style.boxShadow = "none")}
-            />
-            <FaSearch
-              className="absolute left-3 top-3"
-              style={{ color: "var(--nav-text)" }}
-            />
-          </div>
-        </div>
+       
 
         {/* Right Side Items */}
         <div className="flex items-center space-x-4">

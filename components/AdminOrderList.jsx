@@ -181,7 +181,7 @@ const AdminOrderList = () => {
       >
         Order List
       </h2>
-      
+
       {/* Mobile Card View */}
       <div className="block md:hidden">
         {Object.keys(orders).map((orderId) => {
@@ -199,116 +199,183 @@ const AdminOrderList = () => {
               <div className="p-4">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <p className={`font-semibold text-sm ${
-                      theme === "light" ? "text-gray-900" : "text-white"
-                    }`}>
-                      Order #{orderId.length > 8 ? orderId.slice(0, 8) + "..." : orderId}
+                    <p
+                      className={`font-semibold text-sm ${
+                        theme === "light" ? "text-gray-900" : "text-white"
+                      }`}
+                    >
+                      Order #
+                      {orderId.length > 8
+                        ? orderId.slice(0, 8) + "..."
+                        : orderId}
                     </p>
-                    <p className={`text-sm ${
-                      theme === "light" ? "text-gray-600" : "text-gray-300"
-                    }`}>
+                    <p
+                      className={`text-sm ${
+                        theme === "light" ? "text-gray-600" : "text-gray-300"
+                      }`}
+                    >
                       {firstItem.customer_name}
                     </p>
                   </div>
                   <button
                     onClick={() => toggleOrder(orderId)}
-                    className={`p-2 ${theme === "light" ? "text-gray-600" : "text-gray-400"}`}
+                    className={`p-2 ${
+                      theme === "light" ? "text-gray-600" : "text-gray-400"
+                    }`}
                   >
-                    {expandedOrder === orderId ? <FaChevronUp /> : <FaChevronDown />}
+                    {expandedOrder === orderId ? (
+                      <FaChevronUp />
+                    ) : (
+                      <FaChevronDown />
+                    )}
                   </button>
                 </div>
-                
+
                 <div className="flex justify-between items-center text-sm">
-                  <span className={theme === "light" ? "text-gray-600" : "text-gray-300"}>
+                  <span
+                    className={
+                      theme === "light" ? "text-gray-600" : "text-gray-300"
+                    }
+                  >
                     {firstItem.delivery_city}
                   </span>
-                  <span className={theme === "light" ? "text-gray-600" : "text-gray-300"}>
-                    {new Date(firstItem.created_at).toLocaleTimeString("en-US", {
-                      hour: "numeric",
-                      minute: "numeric",
-                      hour12: true,
-                    })}
+                  <span
+                    className={
+                      theme === "light" ? "text-gray-600" : "text-gray-300"
+                    }
+                  >
+                    {new Date(firstItem.created_at).toLocaleTimeString(
+                      "en-US",
+                      {
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: true,
+                      }
+                    )}
                   </span>
                 </div>
-                
+
                 <div className="mt-2">
-                  <span className={`inline-block px-2 py-1 text-xs rounded-full ${
-                    firstItem.order_status === "Completed"
-                      ? "bg-green-100 text-green-800"
-                      : firstItem.order_status === "Processing"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : firstItem.order_status === "pending"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-800"
-                  }`}>
+                  <span
+                    className={`inline-block px-2 py-1 text-xs rounded-full ${
+                      firstItem.order_status === "Completed"
+                        ? "bg-green-100 text-green-800"
+                        : firstItem.order_status === "Processing"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : firstItem.order_status === "pending"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-gray-100 text-gray-800"
+                    }`}
+                  >
                     {firstItem.order_status}
                   </span>
                 </div>
               </div>
-              
+
               {expandedOrder === orderId && (
-                <div className={`border-t p-4 ${
-                  theme === "light" ? "bg-gray-50 border-gray-200" : "bg-gray-600 border-gray-500"
-                }`}>
+                <div
+                  className={`border-t p-4 ${
+                    theme === "light"
+                      ? "bg-gray-50 border-gray-200"
+                      : "bg-gray-600 border-gray-500"
+                  }`}
+                >
                   <div className="space-y-4">
                     {/* Customer Details */}
                     <div>
-                      <h4 className={`font-semibold mb-2 text-sm ${
-                        theme === "light" ? "text-gray-800" : "text-white"
-                      }`}>
+                      <h4
+                        className={`font-semibold mb-2 text-sm ${
+                          theme === "light" ? "text-gray-800" : "text-white"
+                        }`}
+                      >
                         Customer Details
                       </h4>
                       <div className="text-xs space-y-1">
-                        <p><strong>Order ID:</strong> {orderId}</p>
-                        <p><strong>Name:</strong> {firstItem.customer_name}</p>
-                        <p><strong>Email:</strong> {firstItem.customer_email}</p>
-                        <p><strong>Phone:</strong> {firstItem.customer_phone}</p>
-                        <p><strong>Address:</strong> {firstItem.delivery_address}</p>
-                        <p><strong>City:</strong> {firstItem.delivery_city}</p>
-                        <p><strong>Payment:</strong> {firstItem.payment_method}</p>
-                        <p><strong>Total:</strong> Rs. {firstItem.order_total}</p>
+                        <p>
+                          <strong>Order ID:</strong> {orderId}
+                        </p>
+                        <p>
+                          <strong>Name:</strong> {firstItem.customer_name}
+                        </p>
+                        <p>
+                          <strong>Email:</strong> {firstItem.customer_email}
+                        </p>
+                        <p>
+                          <strong>Phone:</strong> {firstItem.customer_phone}
+                        </p>
+                        <p>
+                          <strong>Address:</strong> {firstItem.delivery_address}
+                        </p>
+                        <p>
+                          <strong>City:</strong> {firstItem.delivery_city}
+                        </p>
+                        <p>
+                          <strong>Payment:</strong> {firstItem.payment_method}
+                        </p>
+                        <p>
+                          <strong>Total:</strong> Rs. {firstItem.order_total}
+                        </p>
                         {firstItem.delivery_notes && (
-                          <p><strong>Notes:</strong> {firstItem.delivery_notes}</p>
+                          <p>
+                            <strong>Notes:</strong> {firstItem.delivery_notes}
+                          </p>
                         )}
                       </div>
                     </div>
-                    
+
                     {/* Ordered Items */}
                     <div>
-                      <h4 className={`font-semibold mb-2 text-sm ${
-                        theme === "light" ? "text-gray-800" : "text-white"
-                      }`}>
+                      <h4
+                        className={`font-semibold mb-2 text-sm ${
+                          theme === "light" ? "text-gray-800" : "text-white"
+                        }`}
+                      >
                         Ordered Items
                       </h4>
                       <div className="space-y-2">
                         {orderItems.map((item) => (
-                          <div key={item.id} className="flex items-center space-x-3">
+                          <div
+                            key={item.id}
+                            className="flex items-center space-x-3"
+                          >
                             <img
                               src={item.item_pic}
                               alt={item.item_name}
                               className="w-12 h-12 object-cover rounded-md flex-shrink-0"
                             />
                             <div className="flex-1 min-w-0">
-                              <p className="text-xs font-medium truncate">{item.item_name}</p>
-                              <p className="text-xs text-gray-500">Qty: {item.item_quantity}</p>
-                              <p className="text-xs text-gray-500">{item.item_category}</p>
+                              <p className="text-xs font-medium truncate">
+                                {item.item_name}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                Qty: {item.item_quantity}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {item.item_category}
+                              </p>
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
-                    
+
                     {/* Status Update */}
                     <div>
-                      <h4 className={`font-semibold mb-2 text-sm ${
-                        theme === "light" ? "text-gray-800" : "text-white"
-                      }`}>
+                      <h4
+                        className={`font-semibold mb-2 text-sm ${
+                          theme === "light" ? "text-gray-800" : "text-white"
+                        }`}
+                      >
                         Update Status
                       </h4>
                       <div className="space-y-2">
                         <select
-                          value={selectedStatus[orderId] || firstItem.order_status}
-                          onChange={(e) => handleStatusChange(orderId, e.target.value)}
+                          value={
+                            selectedStatus[orderId] || firstItem.order_status
+                          }
+                          onChange={(e) =>
+                            handleStatusChange(orderId, e.target.value)
+                          }
                           className={`w-full px-2 py-1 text-xs border rounded focus:outline-none focus:ring-1 focus:ring-blue-500 ${
                             theme === "light"
                               ? "bg-white border-gray-300 text-gray-900"
