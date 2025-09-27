@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import AdminDash from "@/Components/AdminDash";
+import AdminDash from "@/components/AdminDash";
 
-import { ThemeProvider } from "@/Components/ThemeContext";
-import ThemeToggleButton from "@/Components/ThemeToggleButton";
+import { ThemeProvider } from "@/components/ThemeContext";
+import ThemeToggleButton from "@/components/ThemeToggleButton";
 
 // Admin dashboard page component
 const Admin = () => {
