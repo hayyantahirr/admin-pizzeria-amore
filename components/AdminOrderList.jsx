@@ -4,7 +4,8 @@ import { supabase } from "@/lib/supabaseClient";
 
 import { useState, useEffect } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { useTheme } from "../Components/ThemeContext";
+import { useTheme } from "./ThemeContext";
+
 
 const AdminOrderList = () => {
   const [orders, setOrders] = useState([]);
