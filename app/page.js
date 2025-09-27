@@ -3,8 +3,8 @@
 import React from "react";
 import AdminDash from "@/Components/AdminDash";
 
-import ThemeToggleButton from "@/Components/ThemeToggleButton.jsx";
 import { ThemeProvider } from "@/Components/ThemeContext";
+import ThemeToggleButton from "@/Components/ThemeToggleButton";
 
 // Admin dashboard page component
 const Admin = () => {
